@@ -166,4 +166,13 @@ dependencies {
     def lifecycle_version = "2.2.0-rc03"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+
+    // ACRA
+    def acra_version = "5.4.0"
+    // ACRA Sender
+    implementation "ch.acra:acra-mail:$acra_version"
+    // ACRA Interaction
+    implementation "ch.acra:acra-dialog:$acra_version"
+    implementation "ch.acra:acra-notification:$acra_version"
+    implementation "ch.acra:acra-toast:$acra_version"
 }

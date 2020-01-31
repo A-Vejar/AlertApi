@@ -7,4 +7,7 @@
   <string name="tb_title">Earthquake Alert</string>
   <string name="tb_subtitle">Chilean seismic events</string>
 
+  <!-- ACRA Message -->
+  <string name="acra_crash_msg">Crash App ...</string>
+
 </resources>

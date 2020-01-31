@@ -21,7 +21,12 @@ import cl.ucn.disc.dsm.alertapi.services.AlertService;
 import cl.ucn.disc.dsm.alertapi.services.Transform;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import okhttp3.OkHttpClient;
+import okhttp3.OkHttpClient.Builder;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Call;
@@ -48,21 +53,29 @@ public class AlertApiService implements AlertService {
   Type type = new TypeToken<List<String[]>>() {}.getType();
   List<String> yourList = gson.fromJson(json, type);
 
-  JsonElement yourJson = mapping.get("servers");
-  Type listType = new TypeToken<List<String>>() {}.getType();
-  List<String> yourList = new Gson().fromJson(yourJson, listType);
+  private static JsonSerializer<List<UltimosSismosChile>> serializer;
   */
 
-  // private static JsonSerializer<List<UltimosSismosChile>> serializer;
-
   public AlertApiService() {
-
     /*
     Gson gson = new GsonBuilder()
         //.registerTypeAdapter(new TypeToken<List<String[]>>() {}.getType(), json)
         .registerTypeAdapter(new TypeToken<List<UltimosSismosChile>>() {}.getType(), serializer)
         .create();
     */
+
+    // Logging with slf4j.
+    final HttpLoggingInterceptor loggingInterceptor =
+        new HttpLoggingInterceptor(log::debug).setLevel(Level.BODY);
+
+    // Web Client.
+    final OkHttpClient httpClient = new Builder()
+        .connectTimeout(5, TimeUnit.SECONDS)
+        .writeTimeout(5, TimeUnit.SECONDS)
+        .readTimeout(5, TimeUnit.SECONDS)
+        .callTimeout(10, TimeUnit.SECONDS)
+        .addNetworkInterceptor(loggingInterceptor)
+        .build();
 
     // Retrofit implement
     alertAPI = new Retrofit.Builder()

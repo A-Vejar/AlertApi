@@ -1,0 +1,10 @@
+<resources>
+
+  <!-- App name -->
+  <string name="app_name">AlertApi</string>
+
+  <!-- Title / Subtitle -->
+  <string name="tb_title">Earthquake Alert</string>
+  <string name="tb_subtitle">Chilean seismic events</string>
+
+</resources>

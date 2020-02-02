@@ -32,71 +32,71 @@ public final class Seismic {
   /**
    * Seismic State.
    */
-  private final Integer state;
+  private Integer state;
 
   /**
    * Seismic UTC Time.
    */
-  private final ZonedDateTime dateUtc;
+  private ZonedDateTime dateUtc;
   //private final String utcTime;
 
   /**
    * Seismic Local Time.
    */
-  private final ZonedDateTime dateLocal;
+  private ZonedDateTime dateLocal;
   //private final String localTime;
 
   /**
    * Seismic Local Time (Chile).
    */
-  private final ZonedDateTime dateChile;
+  private ZonedDateTime dateChile;
   //private final String chileanTime;
 
   /**
    * Seismic Reference.
    */
-  private final String reference;
+  private String reference;
 
   /**
    * Seismic Magnitude.
    */
-  private final double magnitude;
+  private double magnitude;
 
   /**
    * Seismic Scale.
    */
-  private final String scale;
+  private String scale;
 
   /**
    * Seismic Latitude.
    */
-  private final double latitude;
+  private double latitude;
 
   /**
    * Seismic Longitude.
    */
-  private final double longitude;
+  private double longitude;
 
   /**
    * Seismic Depth.
    */
-  private final double depth;
+  private double depth;
 
   /**
    * Seismic ID.
    */
   //private final String id;
-  private final Long id;
+  private Long id;
 
   /**
    * Seismic URL.
    */
-  private final String url;
+  private String url;
 
   /**
    * Seismic Source.
    */
-  private final String source;
+  private String source;
 
   /**
    * Constructor.
@@ -144,6 +144,7 @@ public final class Seismic {
     this.source = source;
   }
 
+  // GETTERS
   /**
    * @return - State.
    */
@@ -229,9 +230,62 @@ public final class Seismic {
   }
 
   /**
-   * @return - Source.
+   * @return - URL.
    */
   public String getSource() {
     return source;
+  }
+
+  // SETTERS
+  public void setState(Integer state) {
+    this.state = state;
+  }
+
+  public void setDateUtc(ZonedDateTime dateUtc) {
+    this.dateUtc = dateUtc;
+  }
+
+  public void setDateLocal(ZonedDateTime dateLocal) {
+    this.dateLocal = dateLocal;
+  }
+
+  public void setDateChile(ZonedDateTime dateChile) {
+    this.dateChile = dateChile;
+  }
+
+  public void setReference(String reference) {
+    this.reference = reference;
+  }
+
+  public void setMagnitude(double magnitude) {
+    this.magnitude = magnitude;
+  }
+
+  public void setScale(String scale) {
+    this.scale = scale;
+  }
+
+  public void setLatitude(double latitude) {
+    this.latitude = latitude;
+  }
+
+  public void setLongitude(double longitude) {
+    this.longitude = longitude;
+  }
+
+  public void setDepth(double depth) {
+    this.depth = depth;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
   }
 }

@@ -16,6 +16,7 @@
 
 package cl.ucn.disc.dsm.alertapi.services.alertapi;
 
+import cl.ucn.disc.dsm.alertapi.model.Seismic;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,5 +30,5 @@ public class AlertApiResult {
   /**
    * Seismic list to get.
    */
-  public List<UltimosSismosChile> ultimos_sismos_Chile = new ArrayList<UltimosSismosChile>();
+  public List<Seismic> ultimos_sismos = new ArrayList<Seismic>();
 }

@@ -38,11 +38,11 @@ public class AlertViewHolder extends RecyclerView.ViewHolder {
   /**
    * Constructor.
    *
-   * @param rowNewsBinding to use.
+   * @param rowBinding to use.
    */
-  public AlertViewHolder(final RowBinding rowNewsBinding) {
-    super(rowNewsBinding.getRoot());
-    binding = rowNewsBinding;
+  public AlertViewHolder(final RowBinding rowBinding) {
+    super(rowBinding.getRoot());
+    binding = rowBinding;
   }
 
   /**
@@ -52,16 +52,20 @@ public class AlertViewHolder extends RecyclerView.ViewHolder {
    */
   public void bind(final Seismic seismic) {
 
-    binding.tvDepth.setText((int) seismic.getDepth());
-    binding.tvLatitude.setText((int) seismic.getLatitude());
-    binding.tvLongitude.setText((int) seismic.getLongitude());
-    binding.tvSource.setText(seismic.getSource());
-    binding.tvUrl.setText(seismic.getUrl());
-    binding.tvReference.setText(seismic.getReference());
-    binding.tvSource.setText(seismic.getSource());
-
+    binding.tvDateUtc.setText(String.valueOf(seismic.getDateUtc()));
+    binding.tvDateChile.setText(String.valueOf(seismic.getDateChile()));
+    /*
     // ZonedDateTime to Date.
     final Date date = DateTimeUtils.toDate(seismic.getDateChile().toInstant());
-    binding.tvDate.setText(PRETTY_TIME.format(date));
+    binding.tvDateChile.setText(PRETTY_TIME.format(date));
+    */
+    binding.tvReference.setText(seismic.getReference());
+    binding.tvMagnitude.setText(String.valueOf(seismic.getMagnitude()));
+    binding.tvScale.setText(seismic.getScale());
+    binding.tvLatitude.setText(String.valueOf(seismic.getLatitude()));
+    binding.tvLongitude.setText(String.valueOf(seismic.getLongitude()));
+    binding.tvDepth.setText(String.valueOf(seismic.getDepth()));
+    binding.tvUrl.setText(seismic.getUrl());
+    binding.tvSource.setText(seismic.getSource());
   }
 }

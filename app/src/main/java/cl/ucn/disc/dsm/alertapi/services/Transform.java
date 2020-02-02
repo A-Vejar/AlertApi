@@ -18,9 +18,10 @@ package cl.ucn.disc.dsm.alertapi.services;
 
 import cl.ucn.disc.dsm.alertapi.model.Seismic;
 import cl.ucn.disc.dsm.alertapi.services.alertapi.AlertApiService;
-import cl.ucn.disc.dsm.alertapi.services.alertapi.UltimosSismosChile;
+import cl.ucn.disc.dsm.alertapi.services.alertapi.UltimosSismo;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import net.openhft.hashing.LongHashFunction;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -36,107 +37,91 @@ public class Transform {
    */
   private static final Logger log = LoggerFactory.getLogger(Transform.class);
 
+  static Seismic seismic;
+
   /**
    * UltimosSismosChile to Seismic.
    *
-   * @param ultimosSismosChile - To transform.
+   * @param seismics - To transform.
    * @return - The Seismic.
    */
-  public static Seismic transform(UltimosSismosChile ultimosSismosChile) {
+  public static List<Seismic> transform(List<Seismic> seismics) {
 
-    throwingException(ultimosSismosChile);
+    throwingException(seismic);
 
     // Date - UTC
-    final ZonedDateTime utcTime = ZonedDateTime.parse(ultimosSismosChile.utcTime);
+    seismic.setDateUtc(ZonedDateTime.parse(seismic.getDateUtc().toString()));
 
     // Date - Chile
-    final ZonedDateTime chileanTime = parseZonedDateTime(ultimosSismosChile.chileanTime)
-        .withZoneSameInstant(Seismic.ZONE_ID);
+    seismic.setDateChile(parseZonedDateTime(seismic.getDateChile().toString()).withZoneSameInstant(Seismic.ZONE_ID));
 
     // Date - Local
-    final ZonedDateTime localTime = parseZonedDateTime(ultimosSismosChile.localTime)
-        .withZoneSameInstant(Seismic.ZONE_ID);
+    seismic.setDateLocal(parseZonedDateTime(seismic.getDateChile().toString()).withZoneSameInstant(Seismic.ZONE_ID));
 
     // ID
-    final Long id = LongHashFunction.xx().hashChars(ultimosSismosChile.id);
+    final Long id = LongHashFunction.xx().hashChars(seismic.getId().toString());
 
-    Seismic theSeismic = new Seismic(
-        ultimosSismosChile.state,
-        utcTime,
-        localTime,
-        chileanTime,
-        ultimosSismosChile.reference,
-        ultimosSismosChile.magnitude,
-        ultimosSismosChile.scale,
-        ultimosSismosChile.latitude,
-        ultimosSismosChile.longitude,
-        ultimosSismosChile.depth,
-        id,
-        ultimosSismosChile.url,
-        ultimosSismosChile.source
-    );
-
-    return theSeismic;
+    return seismics;
   }
 
   /**
    * Exceptions.
-   * @param ultimosSismosChile - The Seismic.
+   * @param seismic - The Seismic.
    */
-  private static void throwingException(UltimosSismosChile ultimosSismosChile) {
+  private static void throwingException(Seismic seismic) {
 
     // If its null
-    if (ultimosSismosChile == null) {
+    if (seismic == null) {
       throw new AlertApiService.AlertAPIException("NULL");
     }
 
     // Host
-    String host = getHost(ultimosSismosChile.url);
+    String host = getHost(seismic.getUrl());
 
     // State
-    if (ultimosSismosChile.state == null) {
+    if (seismic.getState() == null) {
       throw new AlertApiService.AlertAPIException("NULL");
     }
 
     // Reference
-    if (ultimosSismosChile.reference == null) {
+    if (seismic.getReference() == null) {
       throw new AlertApiService.AlertAPIException("NULL");
     }
 
     // Magnitude
-    if(ultimosSismosChile.magnitude == 0.0d) {
+    if(seismic.getMagnitude() == 0.0d) {
       throw new AlertApiService.AlertAPIException("NULL");
     }
 
     // Scale
-    if (ultimosSismosChile.scale == null) {
+    if (seismic.getScale() == null) {
       throw new AlertApiService.AlertAPIException("NULL");
     }
 
     // Latitude
-    if (ultimosSismosChile.latitude == 0.0d) {
+    if (seismic.getLatitude() == 0.0d) {
       throw new AlertApiService.AlertAPIException("NULL");
     }
 
     // Longitude
-    if(ultimosSismosChile.longitude == 0.0d) {
+    if(seismic.getLongitude() == 0.0d) {
       throw new AlertApiService.AlertAPIException("NULL");
     }
 
     // Depth
-    if (ultimosSismosChile.depth == null) {
+    if (seismic.getDepth() == 0.0d) {
       throw new AlertApiService.AlertAPIException("NULL");
     }
 
     // Source
-    if (ultimosSismosChile.source == null) {
+    if (seismic.getSource() == null) {
 
       if (host != null) {
-        ultimosSismosChile.source = host;
+        seismic.setSource(host);
 
       } else {
-        ultimosSismosChile.source = "*NO-SOURCE";
-        log.warn("Seismic without source: {}", toString(ultimosSismosChile));
+        seismic.setSource("*NO-SOURCE");
+        log.warn("Seismic without source: {}", toString(seismic));
       }
     }
   }

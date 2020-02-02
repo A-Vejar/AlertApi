@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
               // Show a message.
               Toasty.success(
-                  this, "News fetched: " + size, Toast.LENGTH_SHORT, true
+                  this, "Alerts fetched: " + size, Toast.LENGTH_SHORT, true
               ).show();
             });
           }

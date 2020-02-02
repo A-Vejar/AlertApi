@@ -17,9 +17,9 @@
 package cl.ucn.disc.dsm.alertapi.services.alertapi;
 
 /**
- * UltimosSismosChile class.
+ * UltimosSismo class.
  */
-public class UltimosSismosChile {
+public class UltimosSismo {
 
   /**
    * State.
@@ -69,7 +69,7 @@ public class UltimosSismosChile {
   /**
    * Depth.
    */
-  public Integer depth;
+  public double depth;
 
   /**
    * ID.

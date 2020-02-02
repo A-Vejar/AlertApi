@@ -37,7 +37,7 @@ public class AlertViewModel extends ViewModel {
   /**
    * Size of news.
    */
-  private static final String SELECT_TYPE = "ultimos_sismos_chile";
+  private static final String SELECT_TYPE = "ultimos_sismos";
 
   /**
    * MutableLiveData

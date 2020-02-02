@@ -18,8 +18,6 @@ package cl.ucn.disc.dsm.alertapi.services;
 
 import cl.ucn.disc.dsm.alertapi.model.Seismic;
 import cl.ucn.disc.dsm.alertapi.services.alertapi.AlertApiService;
-import cl.ucn.disc.dsm.alertapi.services.alertapi.Metadata;
-import cl.ucn.disc.dsm.alertapi.services.alertapi.UltimosSismosChile;
 import cl.ucn.disc.dsm.alertapi.services.mockup.MockupAlertService;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -65,9 +63,9 @@ public class AlertServiceTest {
   public void testGetAlertApi() {
 
     // ultimos_sismos_chile | ultimos_sismos
-    final String select = "ultimos_sismos_chile";
+    final String select = "ultimos_sismos";
 
-    log.debug("Testing the AlertApiService, requesting {}.", select);
+    log.debug("Testing the AlertApiService, requesting = {}", select);
 
     // The Seismic service
     final AlertService alertService = new AlertApiService();

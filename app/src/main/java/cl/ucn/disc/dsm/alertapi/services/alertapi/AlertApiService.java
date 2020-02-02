@@ -19,7 +19,10 @@ package cl.ucn.disc.dsm.alertapi.services.alertapi;
 import cl.ucn.disc.dsm.alertapi.model.Seismic;
 import cl.ucn.disc.dsm.alertapi.services.AlertService;
 import cl.ucn.disc.dsm.alertapi.services.Transform;
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -27,6 +30,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.OkHttpClient.Builder;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Call;
@@ -48,21 +53,7 @@ public class AlertApiService implements AlertService {
    */
   private final AlertAPI alertAPI;
 
-  /*
-  Gson gson = new Gson();
-  Type type = new TypeToken<List<String[]>>() {}.getType();
-  List<String> yourList = gson.fromJson(json, type);
-
-  private static JsonSerializer<List<UltimosSismosChile>> serializer;
-  */
-
   public AlertApiService() {
-    /*
-    Gson gson = new GsonBuilder()
-        //.registerTypeAdapter(new TypeToken<List<String[]>>() {}.getType(), json)
-        .registerTypeAdapter(new TypeToken<List<UltimosSismosChile>>() {}.getType(), serializer)
-        .create();
-    */
 
     // Logging with slf4j.
     final HttpLoggingInterceptor loggingInterceptor =
@@ -73,7 +64,7 @@ public class AlertApiService implements AlertService {
         .connectTimeout(5, TimeUnit.SECONDS)
         .writeTimeout(5, TimeUnit.SECONDS)
         .readTimeout(5, TimeUnit.SECONDS)
-        .callTimeout(10, TimeUnit.SECONDS)
+        .callTimeout(5, TimeUnit.SECONDS)
         .addNetworkInterceptor(loggingInterceptor)
         .build();
 
@@ -123,32 +114,17 @@ public class AlertApiService implements AlertService {
       if (theResult.metadata == null) {
         throw new AlertAPIException("Metadata in AlertResult was null");
       }
-      log.debug("REQUEST = {}", theResult.metadata.request);
-      log.debug("SUBMITTED = {}", theResult.metadata.submitted);
-      log.debug("DATABASE = {}", theResult.metadata.database);
-      log.debug("VERSION = {}", theResult.metadata.version);
-      log.debug("USER = {}", theResult.metadata.user);
-      log.debug("ERROR = {}", theResult.metadata.err);
-      log.debug("SELECT = {}", theResult.metadata.select);
-      log.debug("COUNTRY = {}", theResult.metadata.country);
-      log.debug("LIMIT = {}", theResult.metadata.limit);
-      log.debug("MIN-MAGNITUDE = {}", theResult.metadata.minMagnitude);
       log.debug("STATUS = {}", theResult.metadata.status);
+      log.debug("Request = {}, User = {}", theResult.metadata.request, theResult.metadata.user);
+      log.debug("Submitted = {}", theResult.metadata.submitted);
+      log.debug("COUNTRY = {}, Limit = {}", theResult.metadata.country, theResult.metadata.limit);
       // ---------------------------------------------------------------------------------------------------
 
-      if(theResult.ultimos_sismos_Chile == null) {
+      if(theResult.ultimos_sismos == null) {
         throw new AlertAPIException("NULL");
       }
 
-      /*
-      JsonElement select = json.getAsJsonObject().get("select");
-      return new Gson().fromJson(select, typeOfT);
-       */
-
-      // Article to Seismic (transformer)
-      return theResult.ultimos_sismos_Chile.stream()
-          .map(Transform::transform)
-          .collect(Collectors.toList());
+      return theResult.ultimos_sismos;
 
     } catch (final IOException ex){
       throw new AlertAPIException("Can't get the AlertResult", ex);

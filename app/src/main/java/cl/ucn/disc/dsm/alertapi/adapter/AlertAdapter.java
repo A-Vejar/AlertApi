@@ -16,16 +16,21 @@
 
 package cl.ucn.disc.dsm.alertapi.adapter;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import cl.ucn.disc.dsm.alertapi.R;
+import cl.ucn.disc.dsm.alertapi.databinding.PopupImageBinding;
 import cl.ucn.disc.dsm.alertapi.databinding.RowBinding;
 import cl.ucn.disc.dsm.alertapi.model.Seismic;
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,9 +73,31 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
   }
 
   /**
+   * Show a image popup with the url.
+   *
+   * @param seismic  to show.
+   * @param inflater used to inflate the popup.
+   * @param context  used to build the dialog.
+   */
+  private void showImagePopup(final Seismic seismic, final LayoutInflater inflater, final Context context) {
+
+    // The popupimage
+    final PopupImageBinding popupImageBinding = PopupImageBinding.inflate(inflater);
+
+    // The URL of the photo
+    popupImageBinding.pdvPicture.setPhotoUri(Uri.parse(seismic.getUrlPic()));
+
+    // The Dialog
+    final Dialog dialog = new Dialog(context, R.style.PopupDialog);
+    dialog.setContentView(popupImageBinding.getRoot());
+    dialog.show();
+  }
+
+  /**
    * Called when RecyclerView needs a newViewHolder ...
    * of the given type to represent an item.
    */
+  @NotNull
   @Override
   public AlertViewHolder onCreateViewHolder(@NonNull final ViewGroup parent,
       final int viewType) {
@@ -83,6 +110,30 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
     final RowBinding rowBinding = RowBinding.inflate(layoutInflater, parent, false);
 
     final AlertViewHolder viewHolder = new AlertViewHolder(rowBinding);
+
+    /*
+     * Click Listener ...
+     */
+    rowBinding.sdvPicture.setOnClickListener(view -> {
+
+      // The position
+      final int position = viewHolder.getAdapterPosition();
+
+      // The id
+      final long id = viewHolder.getItemId();
+      log.debug("Click! position: {}, id: {}.", position, Long.toHexString(id));
+
+      // Noticia to show
+      final Seismic seismic = this.seismic.get(position);
+
+      // Nothing to do
+      if (seismic.getUrlPic() == null) {
+        return;
+      }
+
+      // Popup the image
+      this.showImagePopup(seismic, layoutInflater, parent.getContext());
+    });
 
     /*
      * Click Listener ...

@@ -70,7 +70,7 @@ public class AlertViewHolder extends RecyclerView.ViewHolder {
     binding.tvMagnitude.setText(String.valueOf(seismic.getMagnitude()) + " " + seismic.getScale());
 
     // Coordinates
-    binding.tvDepth.setText("Depth: " + String.valueOf(seismic.getDepth()) + " KM.");
+    binding.tvDepth.setText("Depth: " + String.valueOf(seismic.getDepth()) + " Km.");
     binding.tvLatitude.setText("Latitude: " + String.valueOf(seismic.getLatitude()));
     binding.tvLongitude.setText("Longitude: " + String.valueOf(seismic.getLongitude()));
 
@@ -93,7 +93,6 @@ public class AlertViewHolder extends RecyclerView.ViewHolder {
       String da = seismic.getUtc_time().replace("/", "-").replace(" ", "%20");
 
       String urlPic = url.replace("LA", la).replace("LO",lo).replace("DA",da);
-      log.debug("URL NORMAL = {}", urlPic);
 
       try {
         URI uri = new URI(urlPic);
@@ -105,7 +104,6 @@ public class AlertViewHolder extends RecyclerView.ViewHolder {
       } catch (final URISyntaxException | NullPointerException ex) {
         return;
       }
-
       log.debug("URL GET = {}", seismic.getUrlPic());
 
       binding.sdvPicture.setImageURI(seismic.getUrlPic());

@@ -20,6 +20,8 @@ import android.app.Application;
 import android.content.Context;
 import androidx.appcompat.app.AppCompatDelegate;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.decoder.SimpleProgressiveJpegConfig;
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraMailSender;
@@ -58,8 +60,15 @@ public class MainApplication extends Application {
      */
     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
+    // Fresco configuration for large images
+    ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+        .setProgressiveJpegConfig(new SimpleProgressiveJpegConfig())
+        .setResizeAndRotateEnabledForNetwork(true)
+        .setDownsampleEnabled(true)
+        .build();
+
     // Facebook Fresco
-    Fresco.initialize(this);
+    Fresco.initialize(this, config);
 
     log.debug("Initializing: Done.");
   }

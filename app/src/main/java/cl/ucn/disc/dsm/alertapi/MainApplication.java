@@ -19,6 +19,7 @@ package cl.ucn.disc.dsm.alertapi;
 import android.app.Application;
 import android.content.Context;
 import androidx.appcompat.app.AppCompatDelegate;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraMailSender;
@@ -55,7 +56,10 @@ public class MainApplication extends Application {
      * MODE_NIGHT_AUTO_BATTERY - Night mode if the save battery is activate.
      * MODE_NIGHT_FOLLOW_SYSTEM - Default mode by the device.
      */
-    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+    // Facebook Fresco
+    Fresco.initialize(this);
 
     log.debug("Initializing: Done.");
   }

@@ -39,7 +39,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
   /**
    * News list.
    */
-  private List<Seismic> seismics;
+  private List<Seismic> seismic;
 
   /**
    * Constructor.
@@ -47,29 +47,29 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
   public AlertAdapter() {
 
     // Empty list of news.
-    this.seismics = new ArrayList<>();
+    seismic = new ArrayList<>();
 
     // Each News has an unique ID.
-    this.setHasStableIds(true);
+    setHasStableIds(true);
   }
 
   /**
    * Change the current List.
    *
-   * @param seismics - To use.
+   * @param theSeismic - To use.
    */
-  public void setSeismics(final List<Seismic> seismics) {
+  public void setSeismic(final List<Seismic> theSeismic) {
 
     // Update the news.
-    this.seismics = seismics;
+    seismic = theSeismic;
 
     // Notify to re-layout.
     this.notifyDataSetChanged();
   }
 
   /**
-   * Called when RecyclerView needs a newViewHolder of the given
-   * type to represent an item.
+   * Called when RecyclerView needs a newViewHolder ...
+   * of the given type to represent an item.
    */
   @Override
   public AlertViewHolder onCreateViewHolder(@NonNull final ViewGroup parent,
@@ -80,7 +80,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
         LayoutInflater.from(parent.getContext());
 
     // The row
-    final RowBinding rowBinding= RowBinding.inflate(layoutInflater, parent, false);
+    final RowBinding rowBinding = RowBinding.inflate(layoutInflater, parent, false);
 
     final AlertViewHolder viewHolder = new AlertViewHolder(rowBinding);
 
@@ -97,7 +97,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
       log.debug("Click! position: {}, id: {}.", position, Long.toHexString(id));
 
       // News to show.
-      final Seismic seismic = this.seismics.get(position);
+      final Seismic seismic = this.seismic.get(position);
 
       log.debug("Link: {}.", seismic.getUrl());
       if (seismic.getUrl() != null) {
@@ -123,7 +123,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
   @Override
   public void onBindViewHolder(@NonNull final AlertViewHolder holder,
       final int position) {
-    holder.bind(this.seismics.get(position));
+    holder.bind(seismic.get(position));
   }
 
   /**
@@ -131,7 +131,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
    */
   @Override
   public int getItemCount() {
-    return this.seismics.size();
+    return seismic.size();
   }
 
   /**
@@ -139,6 +139,6 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
    */
   @Override
   public long getItemId(final int position) {
-    return this.seismics.get(position).getId();
+    return seismic.get(position).getId();
   }
 }

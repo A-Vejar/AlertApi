@@ -35,36 +35,36 @@ public class AlertViewModel extends ViewModel {
       LoggerFactory.getLogger(AlertViewModel.class);
 
   /**
-   * Size of news.
+   * Type of search.
    */
   private static final String SELECT_TYPE = "ultimos_sismos";
 
   /**
-   * MutableLiveData
+   * MutableLiveData.
    */
   private final MutableLiveData<List<Seismic>> seismic = new MutableLiveData<>();
 
   /**
-   * The Exception in case of error.
+   * Exception.
    */
   private final MutableLiveData<Exception> exception = new MutableLiveData<>();
 
   /**
-   * The provider.
+   * Provider.
    */
   private AlertService service = new AlertApiService();
 
   /**
-   * LiveData of News to use in the view.
+   * LiveData to use in the view.
    *
-   * @return - The List of News inside a LiveData.
+   * @return - The List of Seismic inside a LiveData.
    */
   public LiveData<List<Seismic>> getSelect() {
     return seismic;
   }
 
   /**
-   * LiveData of Exception to use in the view.
+   * LiveData-Exception to use in the view.
    *
    * @return - The Exception in case of error.
    */
@@ -73,30 +73,30 @@ public class AlertViewModel extends ViewModel {
   }
 
   /**
-   * Update the internal list of News.
+   * Update the internal list.
    *
    * <p>NOTE: Need to run in background.</p>.
    *
-   * @return - The number of news loaded.
+   * @return - The seismic data.
    */
   public int refresh() {
     try {
-      // 1. Get the list of news from NewsApi.
-      final List<Seismic> seismics = service.getSelect(SELECT_TYPE);
+      // 1. Get the list from the API
+      final List<Seismic> theSeismic = service.getSelect(SELECT_TYPE);
 
-      // 2. Set the values (NEED to be in background).
-      seismic.postValue(seismics);
+      // 2. Set the values (NEED to be in background)
+      seismic.postValue(theSeismic);
 
-      // 3. All ok.
-      return seismics.size();
+      // 3. All ok
+      return theSeismic.size();
 
     } catch (final Exception e) {
       log.error("Error", e);
 
-      // 2. Set the exception.
+      // 2. Set the exception
       exception.postValue(e);
 
-      // 3. All error.
+      // 3. All error
       return -1;
     }
   }

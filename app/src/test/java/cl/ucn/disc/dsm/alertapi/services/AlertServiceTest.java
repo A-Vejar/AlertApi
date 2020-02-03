@@ -79,7 +79,7 @@ public class AlertServiceTest {
     log.debug("SEISMIC = {}", seismic);
 
     for(int i = 0; i < seismic.size(); i++) {
-      log.debug("SEISMIC: {}.", seismic.get(i).getUrl());
+      log.debug("SEISMIC: {}.", seismic.get(i));
     }
 
     log.debug("Done.");

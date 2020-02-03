@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import cl.ucn.disc.dsm.alertapi.adapter.AlertAdapter;
-import cl.ucn.disc.dsm.alertapi.adapter.AlertViewHolder;
 import cl.ucn.disc.dsm.alertapi.databinding.ActivityMainBinding;
 import es.dmoral.toasty.Toasty;
 import org.slf4j.Logger;
@@ -71,22 +70,22 @@ public class MainActivity extends AppCompatActivity {
 
     // The ViewModel.
     {
-      // Build the NewsViewModel.
+      // Build the NewsViewModel
       model = new ViewModelProvider(this)
           .get(AlertViewModel.class);
 
-      // Observe the list of news.
+      // Observe the list of news
       model.getSelect()
-          .observe(this, seismics -> adapter.setSeismics(seismics));
+          .observe(this, seismics -> adapter.setSeismic(seismics));
 
-      // Observe the exception.
+      // Observe the exception
       model.getException().observe(this, this::showException);
     }
 
-    // The refresh.
+    // The refresh
     {
       binding.swlRefresh.setOnRefreshListener(() -> {
-        log.debug("Refreshing ..");
+        log.debug("Refreshing ...");
 
         // Run in background.
         AsyncTask.execute(() -> {
@@ -95,16 +94,16 @@ public class MainActivity extends AppCompatActivity {
           final int size = model.refresh();
           if (size != -1) {
 
-            // In the UI.
+            // In the UI
             runOnUiThread(() -> {
 
-              // Hide the loading.
+              // Hide the loading
               binding.swlRefresh.setRefreshing(false);
 
-              // Show a message.
-              Toasty.success(
-                  this, "Alerts fetched: " + size, Toast.LENGTH_SHORT, true
-              ).show();
+              // Show a message
+              Toasty
+                  .success(this, "Alerts fetched: " + size, Toast.LENGTH_SHORT, true)
+                  .show();
             });
           }
         });
@@ -119,10 +118,10 @@ public class MainActivity extends AppCompatActivity {
    */
   private void showException(final Exception exception) {
 
-    // Hide the loading.
+    // Hide the loading
     binding.swlRefresh.setRefreshing(false);
 
-    // Build the message.
+    // Build the message
     final StringBuilder sb = new StringBuilder("Error: ");
     sb.append(exception.getMessage());
 

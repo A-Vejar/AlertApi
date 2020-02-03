@@ -43,9 +43,12 @@ public class MockupAlertService implements AlertService {
 
     seismic.add(new Seismic(
         1,
-        ZonedDateTime.now(Seismic.ZONE_ID),
-        ZonedDateTime.now(Seismic.ZONE_ID),
-        ZonedDateTime.now(Seismic.ZONE_ID),
+        //ZonedDateTime.now(Seismic.ZONE_ID),
+        "Date-1",
+        //ZonedDateTime.now(Seismic.ZONE_ID),
+        "Date-2",
+        //ZonedDateTime.now(Seismic.ZONE_ID),
+        "Date-3",
         "251 km al SE de Antofagasta - Chile",
         3.8,
         "Mb",
@@ -54,14 +57,10 @@ public class MockupAlertService implements AlertService {
         132.15,
         (long) 56620244,
         "http:/sismologia.net/?user=demo&p=detalles&id=56620244",
-        "INSIMU"
+        "INSIMU",
+        "http://chilealerta.tbmsp.net/api/seismogram/?la=18.2948&lo=-81.7313&da=2020-02-02%2011:31:02&he=140&n=C1,C,IU,II,GE,MX"
     ));
 
     return seismic;
-  }
-
-  @Override
-  public List<Seismic> getExample() {
-    return null;
   }
 }

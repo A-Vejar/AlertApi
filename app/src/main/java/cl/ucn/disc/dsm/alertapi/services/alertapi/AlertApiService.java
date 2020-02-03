@@ -18,20 +18,13 @@ package cl.ucn.disc.dsm.alertapi.services.alertapi;
 
 import cl.ucn.disc.dsm.alertapi.model.Seismic;
 import cl.ucn.disc.dsm.alertapi.services.AlertService;
-import cl.ucn.disc.dsm.alertapi.services.Transform;
-import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import okhttp3.OkHttpClient;
 import okhttp3.OkHttpClient.Builder;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Call;
@@ -49,17 +42,20 @@ public class AlertApiService implements AlertService {
       LoggerFactory.getLogger(AlertApiService.class);
 
   /**
-   * AlertAPI
+   * AlertAPI.
    */
   private final AlertAPI alertAPI;
 
+  /**
+   * Constructor.
+   */
   public AlertApiService() {
 
-    // Logging with slf4j.
+    // Logging with slf4j
     final HttpLoggingInterceptor loggingInterceptor =
         new HttpLoggingInterceptor(log::debug).setLevel(Level.BODY);
 
-    // Web Client.
+    // Web Client
     final OkHttpClient httpClient = new Builder()
         .connectTimeout(5, TimeUnit.SECONDS)
         .writeTimeout(5, TimeUnit.SECONDS)
@@ -76,7 +72,7 @@ public class AlertApiService implements AlertService {
         .addConverterFactory(GsonConverterFactory.create())
         // Interface validates
         .validateEagerly(true)
-        // Retrofits build and gets the AlertAPI
+        // Retrofit's build and gets the AlertAPI
         .build()
         .create(AlertAPI.class);
   }
@@ -84,53 +80,9 @@ public class AlertApiService implements AlertService {
   /**
    * Get the Seismic from the Call.
    *
-   * @param theCall - To use.
-   * @return the {@link List} of {@link Seismic}.
+   * @param select - Filter.
+   * @return - The {@link List} of {@link Seismic}.
    */
-  private static List<Seismic> getSelectFromCall(final Call<AlertApiResult> theCall) {
-
-    try {
-      // Get the result from the call
-      final Response<AlertApiResult> response = theCall.execute();
-      log.debug("Response = {}", response);
-
-      // UnSuccessful !
-      if (!response.isSuccessful()) {
-
-        // Error!
-        throw new AlertAPIException("Can't get the AlertResult, code: " + response.code(),
-            new HttpException(response)
-        );
-      }
-
-      final AlertApiResult theResult = response.body();
-
-      // No body
-      if (theResult == null) {
-        throw new AlertAPIException("AlertResult was null");
-      }
-
-      // ---------------------------------------------------------------------------------------------------
-      if (theResult.metadata == null) {
-        throw new AlertAPIException("Metadata in AlertResult was null");
-      }
-      log.debug("STATUS = {}", theResult.metadata.status);
-      log.debug("Request = {}, User = {}", theResult.metadata.request, theResult.metadata.user);
-      log.debug("Submitted = {}", theResult.metadata.submitted);
-      log.debug("COUNTRY = {}, Limit = {}", theResult.metadata.country, theResult.metadata.limit);
-      // ---------------------------------------------------------------------------------------------------
-
-      if(theResult.ultimos_sismos == null) {
-        throw new AlertAPIException("NULL");
-      }
-
-      return theResult.ultimos_sismos;
-
-    } catch (final IOException ex){
-      throw new AlertAPIException("Can't get the AlertResult", ex);
-    }
-  }
-
   @Override
   public List<Seismic> getSelect(String select) {
 
@@ -141,14 +93,55 @@ public class AlertApiService implements AlertService {
     return getSelectFromCall(call);
   }
 
-  @Override
-  public List<Seismic> getExample() {
+  /**
+   * Process the call from the "getSelect" Method
+   *
+   * @param call - To use.
+   * @return the {@link List} of {@link Seismic}.
+   */
+  private static List<Seismic> getSelectFromCall(final Call<AlertApiResult> call) {
 
-    // Call
-    final Call<AlertApiResult> call = alertAPI.getExample();
+    try {
+      // Response
+      final Response<AlertApiResult> response = call.execute();
+      log.debug("Response = {}", response);
 
-    // Call process
-    return getSelectFromCall(call);
+      // UnSuccessful
+      if (!response.isSuccessful()) {
+        // Error
+        throw new AlertAPIException("Can't get the AlertResult, code: " + response.code(),
+            new HttpException(response)
+        );
+      }
+
+      // Result
+      final AlertApiResult result = response.body();
+
+      // No body
+      if (result == null) {
+        throw new AlertAPIException("AlertResult was null");
+      }
+
+      // Null Metadata
+      if (result.metadata == null) {
+        throw new AlertAPIException("Metadata in AlertResult was null");
+      }
+      log.debug("Status = {}, Submitted = {}", result.metadata.status, result.metadata.submitted);
+      log.debug("Request = {}, User = {}", result.metadata.request, result.metadata.user);
+      log.debug("COUNTRY = {}, Limit = {}", result.metadata.country, result.metadata.limit);
+
+      // Null Seismic
+      if(result.ultimos_sismos == null) {
+        throw new AlertAPIException("NULL");
+      }
+
+      // Get the seismic data
+      return result.ultimos_sismos;
+      //return Transform.transform(result.ultimos_sismos);
+
+    } catch (final IOException ex){
+      throw new AlertAPIException("Can't get the AlertResult", ex);
+    }
   }
 
   /**

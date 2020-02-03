@@ -32,9 +32,4 @@ public interface AlertService {
    * @return - The {@link List} of {@link Seismic}.
    */
   List<Seismic> getSelect(String select);
-
-  /**
-   * Test.
-   */
-  List<Seismic> getExample();
 }

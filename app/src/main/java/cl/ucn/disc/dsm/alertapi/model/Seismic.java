@@ -17,17 +17,16 @@
 package cl.ucn.disc.dsm.alertapi.model;
 
 import org.threeten.bp.ZoneId;
-import org.threeten.bp.ZonedDateTime;
 
 /**
  * Seismic class.
  */
-public final class Seismic {
+public class Seismic {
 
   /**
    * Zone.
    */
-  public static final ZoneId ZONE_ID = ZoneId.of("-3");
+  public static ZoneId ZONE_ID = ZoneId.of("-3");
 
   /**
    * Seismic State.
@@ -37,20 +36,20 @@ public final class Seismic {
   /**
    * Seismic UTC Time.
    */
-  private ZonedDateTime dateUtc;
-  //private final String utcTime;
+  //private ZonedDateTime utc_time;
+  private String utc_time;
 
   /**
    * Seismic Local Time.
    */
-  private ZonedDateTime dateLocal;
-  //private final String localTime;
+  //private ZonedDateTime local_time;
+  private String local_time;
 
   /**
    * Seismic Local Time (Chile).
    */
-  private ZonedDateTime dateChile;
-  //private final String chileanTime;
+  //private ZonedDateTime chilean_time;
+  private String chilean_time;
 
   /**
    * Seismic Reference.
@@ -99,12 +98,17 @@ public final class Seismic {
   private String source;
 
   /**
+   * Seismic URL-Picture.
+   */
+  private String urlPic;
+
+  /**
    * Constructor.
    *
    * @param state - State
-   * @param dateUtc - UTC Time
-   * @param dateLocal - Local Time
-   * @param dateChile - Local Time (Chile)
+   * @param utc_time - UTC Time
+   * @param local_time - Local Time
+   * @param chilean_time - Local Time (Chile)
    * @param reference - Reference
    * @param magnitude - Magnitude
    * @param scale - Scale
@@ -114,12 +118,13 @@ public final class Seismic {
    * @param id - ID
    * @param url - URL
    * @param source - Source
+   * @param urlPic - URL-Picture
    */
   public Seismic(
       final Integer state,
-      final ZonedDateTime dateUtc,
-      final ZonedDateTime dateLocal,
-      final ZonedDateTime dateChile,
+      final String utc_time,
+      final String local_time,
+      final String chilean_time,
       final String reference,
       final double magnitude,
       final String scale,
@@ -128,11 +133,12 @@ public final class Seismic {
       final double depth,
       final Long id,
       final String url,
-      final String source) {
+      final String source,
+      final String urlPic) {
     this.state = state;
-    this.dateUtc = dateUtc;
-    this.dateLocal = dateLocal;
-    this.dateChile = dateChile;
+    this.utc_time = utc_time;
+    this.local_time = local_time;
+    this.chilean_time = chilean_time;
     this.reference = reference;
     this.magnitude = magnitude;
     this.scale = scale;
@@ -142,6 +148,7 @@ public final class Seismic {
     this.id = id;
     this.url = url;
     this.source = source;
+    this.urlPic = urlPic;
   }
 
   // GETTERS
@@ -155,22 +162,22 @@ public final class Seismic {
   /**
    * @return - UTC Time.
    */
-  public ZonedDateTime getDateUtc() {
-    return dateUtc;
+  public String getUtc_time() {
+    return utc_time;
   }
 
   /**
    * @return - Local Time.
    */
-  public ZonedDateTime getDateLocal() {
-    return dateLocal;
+  public String getLocal_time() {
+    return local_time;
   }
 
   /**
    * @return - Local Time (Chile).
    */
-  public ZonedDateTime getDateChile() {
-    return dateChile;
+  public String getChilean_time() {
+    return chilean_time;
   }
 
   /**
@@ -230,62 +237,116 @@ public final class Seismic {
   }
 
   /**
-   * @return - URL.
+   * @return - Source.
    */
   public String getSource() {
     return source;
   }
 
+  /**
+   * @return - URL-Picture.
+   */
+  public String getUrlPic() {
+    return urlPic;
+  }
+
   // SETTERS
+
+  /**
+   * @param state - State.
+   */
   public void setState(Integer state) {
     this.state = state;
   }
 
-  public void setDateUtc(ZonedDateTime dateUtc) {
-    this.dateUtc = dateUtc;
+  /**
+   * @param utc_time - UTC Date.
+   */
+  public void setUtc_time(String utc_time) {
+    this.utc_time = utc_time;
   }
 
-  public void setDateLocal(ZonedDateTime dateLocal) {
-    this.dateLocal = dateLocal;
+  /**
+   * @param local_time - Local Time.
+   */
+  public void setLocal_time(String local_time) {
+    this.local_time = local_time;
   }
 
-  public void setDateChile(ZonedDateTime dateChile) {
-    this.dateChile = dateChile;
+  /**
+   * @param chilean_time - Date of Chile.
+   */
+  public void setChilean_time(String chilean_time) {
+    this.chilean_time = chilean_time;
   }
 
+  /**
+   * @param reference - Reference.
+   */
   public void setReference(String reference) {
     this.reference = reference;
   }
 
+  /**
+   * @param magnitude - Magnitude.
+   */
   public void setMagnitude(double magnitude) {
     this.magnitude = magnitude;
   }
 
+  /**
+   * @param scale - Scale.
+   */
   public void setScale(String scale) {
     this.scale = scale;
   }
 
+  /**
+   * @param latitude - Latitude.
+   */
   public void setLatitude(double latitude) {
     this.latitude = latitude;
   }
 
+  /**
+   * @param longitude - Longitude.
+   */
   public void setLongitude(double longitude) {
     this.longitude = longitude;
   }
 
+  /**
+   * @param depth - Depth.
+   */
   public void setDepth(double depth) {
     this.depth = depth;
   }
 
+  /**
+   * @param id - ID.
+   */
   public void setId(Long id) {
     this.id = id;
   }
 
+  /**
+   * @param url - URL.
+   */
   public void setUrl(String url) {
     this.url = url;
   }
 
+  /**
+   * @param source - Source.
+   */
   public void setSource(String source) {
     this.source = source;
+  }
+
+  /**
+   * @param urlPic - URL-Picture.
+   */
+  public void setUrlPic(String urlPic) {
+    this.urlPic = urlPic;
   }
 }

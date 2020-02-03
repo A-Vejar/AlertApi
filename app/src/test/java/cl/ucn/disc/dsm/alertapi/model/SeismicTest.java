@@ -39,9 +39,9 @@ public class SeismicTest {
 
     // The values.
     final Integer state = 1;
-    final ZonedDateTime utcTime = ZonedDateTime.now(Seismic.ZONE_ID);
-    final ZonedDateTime localTime = ZonedDateTime.now(Seismic.ZONE_ID);
-    final ZonedDateTime date = ZonedDateTime.now(Seismic.ZONE_ID);
+    final String utcTime = "2020/02/02 08:37:43";
+    final String local_time = "2020/02/02 05:37:43";
+    final String chilean_time = "2020/02/02 05:37:43";
     final String reference = "251 km al SE de Antofagasta - Chile";
     final double magnitude = 3.8;
     final String scale = "Mb";
@@ -51,18 +51,19 @@ public class SeismicTest {
     final Long id = Long.valueOf(56620244);
     final String url = "http:/sismologia.net/?user=demo&p=detalles&id=56620244";
     final String source = "INSIMU";
+    final String urlPicture = "http://chilealerta.tbmsp.net/api/seismogram/?la=18.2948&lo=-81.7313&da=2020-02-02%2011:31:02&he=140&n=C1,C,IU,II,GE,MX";
 
 
     // The Constructor
     final Seismic seismic =
-        new Seismic(state, utcTime, localTime, date, reference, magnitude,
-            scale, latitude, longitude, depth, id, url, source);
+        new Seismic(state, utcTime, local_time, chilean_time, reference, magnitude,
+            scale, latitude, longitude, depth, id, url, source, urlPicture);
 
     // Testing
     Assertions.assertEquals(state, seismic.getState());
-    Assertions.assertEquals(utcTime, seismic.getDateUtc());
-    Assertions.assertEquals(localTime, seismic.getDateLocal());
-    Assertions.assertEquals(date, seismic.getDateChile());
+    Assertions.assertEquals(utcTime, seismic.getUtc_time());
+    Assertions.assertEquals(local_time, seismic.getLocal_time());
+    Assertions.assertEquals(chilean_time, seismic.getChilean_time());
     Assertions.assertEquals(reference, seismic.getReference());
     Assertions.assertEquals(magnitude, seismic.getMagnitude());
     Assertions.assertEquals(scale, seismic.getScale());
@@ -72,6 +73,7 @@ public class SeismicTest {
     Assertions.assertEquals(id, seismic.getId());
     Assertions.assertEquals(url, seismic.getUrl());
     Assertions.assertEquals(source, seismic.getSource());
+    Assertions.assertEquals(source, seismic.getUrlPic());
 
     log.debug("Done.");
   }

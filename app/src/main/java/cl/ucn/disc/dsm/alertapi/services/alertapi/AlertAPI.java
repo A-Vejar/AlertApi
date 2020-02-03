@@ -38,8 +38,4 @@ public interface AlertAPI {
 
   @GET("?user=" + API_USER)
   Call<AlertApiResult> getSelect(@Query(("select")) String select);
-
-  // ?user=demo&select=ultimos_sismos&country=chile
-  @GET("?user=demo&select=ultimos_sismos&country=chile")
-  Call<AlertApiResult> getExample();
 }

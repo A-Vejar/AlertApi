@@ -17,23 +17,34 @@
 package cl.ucn.disc.dsm.alertapi.adapter;
 
 import androidx.recyclerview.widget.RecyclerView;
+import cl.ucn.disc.dsm.alertapi.R;
 import cl.ucn.disc.dsm.alertapi.databinding.RowBinding;
 import cl.ucn.disc.dsm.alertapi.model.Seismic;
+import cl.ucn.disc.dsm.alertapi.services.alertapi.AlertApiService;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import org.ocpsoft.prettytime.PrettyTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.threeten.bp.DateTimeUtils;
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZonedDateTime;
 
 public class AlertViewHolder extends RecyclerView.ViewHolder {
-
-  /**
-   * The Date formatter.
-   */
-  private static final PrettyTime PRETTY_TIME = new PrettyTime();
 
   /**
    * Bindings.
    */
   private final RowBinding binding;
+
+  /**
+   * Logger.
+   */
+  private static final Logger log =
+      LoggerFactory.getLogger(AlertViewHolder.class);
 
   /**
    * Constructor.
@@ -52,20 +63,55 @@ public class AlertViewHolder extends RecyclerView.ViewHolder {
    */
   public void bind(final Seismic seismic) {
 
-    binding.tvDateUtc.setText(String.valueOf(seismic.getDateUtc()));
-    binding.tvDateChile.setText(String.valueOf(seismic.getDateChile()));
-    /*
-    // ZonedDateTime to Date.
-    final Date date = DateTimeUtils.toDate(seismic.getDateChile().toInstant());
-    binding.tvDateChile.setText(PRETTY_TIME.format(date));
-    */
+    // UTC Date
+    binding.tvDateUtc.setText("UTC - " + String.valueOf(seismic.getUtc_time()));
+
+    // Magnitude
+    binding.tvMagnitude.setText(String.valueOf(seismic.getMagnitude()) + " " + seismic.getScale());
+
+    // Coordinates
+    binding.tvDepth.setText("Depth: " + String.valueOf(seismic.getDepth()) + " KM.");
+    binding.tvLatitude.setText("Latitude: " + String.valueOf(seismic.getLatitude()));
+    binding.tvLongitude.setText("Longitude: " + String.valueOf(seismic.getLongitude()));
+
+    // Reference
     binding.tvReference.setText(seismic.getReference());
-    binding.tvMagnitude.setText(String.valueOf(seismic.getMagnitude()));
-    binding.tvScale.setText(seismic.getScale());
-    binding.tvLatitude.setText(String.valueOf(seismic.getLatitude()));
-    binding.tvLongitude.setText(String.valueOf(seismic.getLongitude()));
-    binding.tvDepth.setText(String.valueOf(seismic.getDepth()));
-    binding.tvUrl.setText(seismic.getUrl());
+
+    // Chile date
+    binding.tvDateChile.setText(String.valueOf(seismic.getChilean_time().substring(11)));
+
+    // Source
     binding.tvSource.setText(seismic.getSource());
+
+    // URL Picture
+    if (seismic.getUrl() != null) {
+
+      String url = "http://chilealerta.tbmsp.net/api/seismogram/?la=LA&lo=LO&da=DA&he=140&n=C1,C,IU,II,GE,MX";
+
+      String la = String.valueOf(seismic.getLatitude());
+      String lo = String.valueOf(seismic.getLongitude());
+      String da = seismic.getUtc_time().replace("/", "-").replace(" ", "%20");
+
+      String urlPic = url.replace("LA", la).replace("LO",lo).replace("DA",da);
+      log.debug("URL NORMAL = {}", urlPic);
+
+      try {
+        URI uri = new URI(urlPic);
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+            .setUri(String.valueOf(uri))
+            .build();
+
+        seismic.setUrlPic(urlPic);
+      } catch (final URISyntaxException | NullPointerException ex) {
+        return;
+      }
+
+      log.debug("URL GET = {}", seismic.getUrlPic());
+
+      binding.sdvPicture.setImageURI(seismic.getUrlPic());
+    } else {
+
+      this.binding.sdvPicture.setImageResource(R.drawable.ic_launcher_background);
+    }
   }
 }

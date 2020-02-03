@@ -5,7 +5,7 @@
 
   <!-- Title / Subtitle -->
   <string name="tb_title">Earthquake Alert</string>
-  <string name="tb_subtitle">Chilean seismic events</string>
+  <string name="tb_subtitle">Global Seismic Events Information</string>
 
   <!-- ACRA Message -->
   <string name="acra_crash_msg">Crash App ...</string>

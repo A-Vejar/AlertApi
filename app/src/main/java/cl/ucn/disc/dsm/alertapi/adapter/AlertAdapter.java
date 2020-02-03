@@ -112,7 +112,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
     final AlertViewHolder viewHolder = new AlertViewHolder(rowBinding);
 
     /*
-     * Click Listener ...
+     * Popup click listener ...
      */
     rowBinding.sdvPicture.setOnClickListener(view -> {
 
@@ -123,20 +123,21 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertViewHolder> {
       final long id = viewHolder.getItemId();
       log.debug("Click! position: {}, id: {}.", position, Long.toHexString(id));
 
-      // Noticia to show
+      // Seismic to show
       final Seismic seismic = this.seismic.get(position);
 
       // Nothing to do
       if (seismic.getUrlPic() == null) {
         return;
       }
+      log.debug("Open Image (Popup) = {}", seismic.getUrlPic());
 
       // Popup the image
       this.showImagePopup(seismic, layoutInflater, parent.getContext());
     });
 
     /*
-     * Click Listener ...
+     * Open URL click listener ...
      */
     rowBinding.getRoot().setOnClickListener(view -> {
 

@@ -16,22 +16,13 @@
 
 package cl.ucn.disc.dsm.alertapi.adapter;
 
+import android.net.Uri;
 import androidx.recyclerview.widget.RecyclerView;
 import cl.ucn.disc.dsm.alertapi.R;
 import cl.ucn.disc.dsm.alertapi.databinding.RowBinding;
 import cl.ucn.disc.dsm.alertapi.model.Seismic;
-import cl.ucn.disc.dsm.alertapi.services.alertapi.AlertApiService;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.interfaces.DraweeController;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Date;
-import org.ocpsoft.prettytime.PrettyTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.threeten.bp.DateTimeUtils;
-import org.threeten.bp.Instant;
-import org.threeten.bp.ZonedDateTime;
 
 public class AlertViewHolder extends RecyclerView.ViewHolder {
 
@@ -93,20 +84,10 @@ public class AlertViewHolder extends RecyclerView.ViewHolder {
       String da = seismic.getUtc_time().replace("/", "-").replace(" ", "%20");
 
       String urlPic = url.replace("LA", la).replace("LO",lo).replace("DA",da);
+      seismic.setUrlPic(urlPic);
 
-      try {
-        URI uri = new URI(urlPic);
-        DraweeController controller = Fresco.newDraweeControllerBuilder()
-            .setUri(String.valueOf(uri))
-            .build();
-
-        seismic.setUrlPic(urlPic);
-      } catch (final URISyntaxException | NullPointerException ex) {
-        return;
-      }
-      log.debug("URL GET = {}", seismic.getUrlPic());
-
-      binding.sdvPicture.setImageURI(seismic.getUrlPic());
+      log.debug("URI = {}", seismic.getUrlPic());
+      binding.sdvPicture.setImageURI(Uri.parse(seismic.getUrlPic()));
     } else {
 
       this.binding.sdvPicture.setImageResource(R.drawable.ic_launcher_background);

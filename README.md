@@ -4,7 +4,7 @@ Alert-API its an Android applications that allows the user to saw seismic event 
 ## Description (In progress ...)
 Using the "Chile Alerta" external API, we call all kind of seismic across the world.
 
-## Screenshots
+## Screenshot
 ![Screenshot](./images/test.PNG)
 
 ### Features

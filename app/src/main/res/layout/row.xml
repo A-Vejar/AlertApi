@@ -90,6 +90,9 @@
       android:textAppearance="@style/TextSmall"
       tools:text="Longitude" />
   </LinearLayout>
+  <Space
+    android:layout_width="match_parent"
+    android:layout_height="3dp" />
   <TextView
     android:id="@+id/tv_reference"
     android:textStyle="bold"

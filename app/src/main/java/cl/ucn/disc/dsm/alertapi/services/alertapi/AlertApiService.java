@@ -137,7 +137,6 @@ public class AlertApiService implements AlertService {
 
       // Get the seismic data
       return result.ultimos_sismos;
-      //return Transform.transform(result.ultimos_sismos);
 
     } catch (final IOException ex){
       throw new AlertAPIException("Can't get the AlertResult", ex);

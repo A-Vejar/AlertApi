@@ -2,7 +2,7 @@
 <resources>
 
   <color name="colorAccent">#D81B60</color>
-  <color name="lineDivider">@color/g800</color>
+  <color name="lineDivider">@color/g1400</color>
 
   <!-- Text -->
   <color name="textColorPrimary">@color/g900</color>

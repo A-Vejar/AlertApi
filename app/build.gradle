@@ -115,7 +115,7 @@ dependencies {
     testImplementation "ch.qos.logback:logback-classic:1.3.0-alpha5"
 
     // Leak Canary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
 
     // Constraintlayout
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"

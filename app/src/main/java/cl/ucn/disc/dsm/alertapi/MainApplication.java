@@ -19,6 +19,7 @@ package cl.ucn.disc.dsm.alertapi;
 import android.app.Application;
 import android.content.Context;
 import androidx.appcompat.app.AppCompatDelegate;
+import com.facebook.drawee.backends.pipeline.BuildConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.decoder.SimpleProgressiveJpegConfig;
@@ -58,7 +59,7 @@ public class MainApplication extends Application {
      * MODE_NIGHT_AUTO_BATTERY - Night mode if the save battery is activate.
      * MODE_NIGHT_FOLLOW_SYSTEM - Default mode by the device.
      */
-    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
 
     // Fresco configuration for large images
     ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
